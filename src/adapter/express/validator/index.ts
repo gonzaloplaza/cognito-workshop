@@ -1,3 +1,4 @@
-import { PostAuthenticationValidator } from '@adapter/express/validator/postAuthenticationValidator';
+import { PostAuthenticationValidator } from './postAuthenticationValidator';
+import { PostSignupValidator } from './postSignupValidator';
 
-export { PostAuthenticationValidator };
+export { PostAuthenticationValidator, PostSignupValidator };

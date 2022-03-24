@@ -8,6 +8,8 @@ export const ApiRouter = (
   getProfileController: controllers.GetProfileController,
   postAuthenticationController: controllers.PostAuthenticationController,
   postAuthenticationValidator: validators.PostAuthenticationValidator,
+  postSignupController: controllers.PostSignupController,
+  postSignupValidator: validators.PostSignupValidator,
   authorizer: Authorizer<Request, Response, NextFunction>
 ): Router => {
   const apiRouter = Router();
@@ -17,6 +19,11 @@ export const ApiRouter = (
     '/auth',
     postAuthenticationValidator.validate,
     postAuthenticationController.invoke.bind(postAuthenticationController)
+  );
+  apiRouter.post(
+    '/signup',
+    postSignupValidator.validate,
+    postSignupController.invoke.bind(postSignupController)
   );
 
   // authenticated routes

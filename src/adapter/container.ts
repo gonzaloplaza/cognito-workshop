@@ -16,7 +16,6 @@ import * as useCases from '@domain/useCase';
 
 //Shared infrastructure implementations
 import { ErrorMiddleware } from '@adapter/express/middleware/errorMiddleware';
-import { Uuidv4Generator } from '@adapter/uuid';
 import { ApiRouter } from '@adapter/express/router';
 import { ServerLogger } from '@adapter/logger';
 import { config } from '@config';
@@ -47,10 +46,11 @@ export class Container {
         apiRouter: asFunction(ApiRouter).singleton()
       })
       .register({
-        uuidGenerator: asClass(Uuidv4Generator).singleton()
+        indexController: asClass(apiControllers.GetIndexController).singleton()
       })
       .register({
-        indexController: asClass(apiControllers.GetIndexController).singleton()
+        postSignupController: asClass(apiControllers.PostSignupController).singleton(),
+        postSignupValidator: asClass(validators.PostSignupValidator).singleton()
       })
       .register({
         postAuthenticationController: asClass(

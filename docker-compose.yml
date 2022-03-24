@@ -5,8 +5,8 @@ services:
       # This image is used for development running nodemon with your shared source files.
       context: ./
       dockerfile: ./etc/node/Dockerfile.dev
-    image: express-ts-ddd
-    container_name: express-ts-ddd
+    image: cognito-workshop
+    container_name: cognito-workshop
     restart: unless-stopped
     working_dir: /app/
     volumes:
@@ -14,27 +14,27 @@ services:
     ports:
       - "3000:3000"
     environment:
-      APP_NAME: "express-ts-ddd"
+      APP_NAME: "cognito-workshop"
       APP_ENV: "development"
       APP_LOG_LEVEL: "debug"
     networks:
-      - express-ts-ddd-network
+      - cognito-workshop-network
 
   nginx:
     build:
       context: ./
       dockerfile: ./etc/nginx/Dockerfile
-    container_name: express-ts-ddd-nginx
+    container_name: cognito-workshop-nginx
     environment:
       PORT: 8080
     restart: unless-stopped
     ports:
       - "8080:8080"
     networks:
-      - express-ts-ddd-network
+      - cognito-workshop-network
     depends_on:
       - app
 
 networks:
-  express-ts-ddd-network:
+  cognito-workshop-network:
     driver: bridge

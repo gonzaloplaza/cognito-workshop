@@ -103,5 +103,5 @@ docker run --rm -it -p 3000:3000 \
   -e COGNITO_USER_POOL="your_cognito_user_pool" \
   -e COGNITO_CLIENT_ID="your_cognito_client_id" \
   -e COGNITO_REGION="your-aws-region-x" \
-  --name express-ts-ddd cognito-workshop
+  --name cognito-workshop cognito-workshop
 ```
