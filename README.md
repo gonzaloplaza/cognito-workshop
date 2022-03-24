@@ -92,7 +92,7 @@ Example JSON response (/health_check):
 You can build an optimized Docker production-ready image with the standard command:
 
 ```sh
-docker build -t cognito-workshop .
+docker build --no-cache -t cognito-workshop .
 ```
 
 And then run the container passing environment variables within the initialization:

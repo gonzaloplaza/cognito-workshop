@@ -2,7 +2,7 @@
   "name": "cognito-workshop",
   "version": "1.0.0",
   "description": "Cognito Workshop",
-  "main": "bin/index.ts",
+  "main": "dist/bin/index.js",
   "author": "Gonzalo Plaza <gonzaloplazac@gmail.com>",
   "license": "MIT",
   "private": false,
@@ -18,7 +18,8 @@
   "scripts": {
     "dev": "nodemon",
     "start": "ts-node ./bin/index.ts",
-    "build": "rm -rf ./dist/ && tsc -p .",
+    "start-server": "node ./dist/bin/index.js",
+    "build": "rm -rf ./dist && tsc --project tsconfig.json && tscpaths -p tsconfig.json -s . -o ./dist",
     "test": "echo Please implement tests..."
   },
   "dependencies": {
@@ -36,8 +37,7 @@
     "jsonwebtoken": "^8.5.1",
     "jwk-to-pem": "^2.0.4",
     "morgan": "^1.10.0",
-    "winston": "^3.3.3",
-    "yarn": "^1.22.10"
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "@types/app-root-path": "^1.2.4",
@@ -55,6 +55,7 @@
     "prettier": "^2.2.1",
     "ts-node": "^10.0.0",
     "tsconfig-paths": "^3.14.1",
+    "tscpaths": "^0.0.9",
     "ttypescript": "^1.5.12",
     "typescript": "^4.1.5"
   }

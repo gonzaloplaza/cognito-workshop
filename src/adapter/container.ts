@@ -50,7 +50,8 @@ export class Container {
       })
       .register({
         postSignupController: asClass(apiControllers.PostSignupController).singleton(),
-        postSignupValidator: asClass(validators.PostSignupValidator).singleton()
+        postSignupValidator: asClass(validators.PostSignupValidator).singleton(),
+        signup: asClass(useCases.Signup)
       })
       .register({
         postAuthenticationController: asClass(

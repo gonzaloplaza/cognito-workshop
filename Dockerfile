@@ -15,9 +15,6 @@ COPY ./bin /app/bin
 COPY ./config /app/config
 COPY tsconfig.json /app
 
-# Generate local prisma client
-RUN yarn prisma generate
-
 # Build/transpile from ts to js
 RUN yarn build
 
