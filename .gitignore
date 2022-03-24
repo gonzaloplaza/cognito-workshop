@@ -1,0 +1,16 @@
+/etc/postgresql/data
+logs
+*.log
+npm-debug.log*
+pids
+.idea
+*.pid
+*.seed
+*.pid.lock
+node_modules
+coverage
+*.tsbuildinfo
+.env
+build
+dist
+coverage

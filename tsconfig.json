@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "baseUrl": ".",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "./dist",
+    "strict": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "lib": ["esnext"],
+    "sourceMap": true,
+    "forceConsistentCasingInFileNames": true,
+    "paths": {
+      "@domain/*": ["src/domain/*"],
+      "@adapter/*": ["src/adapter/*"],
+      "@config": ["config/index.ts"]
+    }
+  },
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  },
+  "include": ["bin/*","src/**/*"],
+  "exclude": ["node_modules", "**/*.test.ts", "dist"]
+}
+
