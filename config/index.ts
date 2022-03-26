@@ -13,6 +13,10 @@ export type Configuration = {
   PORT: number;
   APP_NAME: string;
   APP_LOG_LEVEL: string;
+  AWS: {
+    ACCESS_KEY_ID: string;
+    SECRET_ACCESS_KEY: string;
+  };
   APP_COGNITO: {
     USER_POOL_ID: string;
     CLIENT_ID: string;

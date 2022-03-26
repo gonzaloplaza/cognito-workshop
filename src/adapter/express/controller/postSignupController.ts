@@ -13,8 +13,9 @@ export class PostSignupController {
         password: req.body.password
       });
       res.status(200).json(signupResponse);
-    } catch (e) {
-      next(new DomainError('Invalid signUp', 401));
+    } catch (e: any) {
+      console.log(e.message);
+      next(new DomainError(`Error: Invalid SignUp: ${e.message}`, 400));
     }
   }
 }
