@@ -1,4 +1,5 @@
-import { CognitoAuthenticator } from './cognitoAuthenticator';
 import { CognitoAuthorizer } from './cognitoAuthorizer';
+import { CognitoUserRepository } from '@adapter/cognito/cognitoUserRepository';
+import { CognitoClient } from '@adapter/cognito/cognitoClient';
 
-export { CognitoAuthenticator, CognitoAuthorizer };
+export { CognitoAuthorizer, CognitoClient, CognitoUserRepository };

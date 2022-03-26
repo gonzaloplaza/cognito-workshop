@@ -1,5 +1,5 @@
 import { ObtainProfile } from './obtainProfile/obtainProfile';
 import { Authentication } from './authentication/authentication';
-import { Signup } from '@domain/useCase/signup/signup';
+import { SignUp } from '@domain/useCase/signUp/signUp';
 
-export { Authentication, Signup, ObtainProfile };
+export { Authentication, SignUp, ObtainProfile };

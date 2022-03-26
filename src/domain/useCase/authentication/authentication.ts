@@ -1,8 +1,7 @@
-import { Authenticator } from '@domain/service/authenticator';
-import { Logger } from '@domain/service/logger';
+import { UserRepository } from '@domain/repository/userRepository';
 
 export type AuthenticationRequest = {
-  username: string;
+  email: string;
   password: string;
 };
 
@@ -12,11 +11,9 @@ export type AuthenticationResponse = {
 };
 
 export class Authentication {
-  constructor(private logger: Logger, private authenticator: Authenticator) {}
+  constructor(private userRepository: UserRepository) {}
 
   public async invoke(request: AuthenticationRequest): Promise<AuthenticationResponse> {
-    this.logger.info(`User authentication attempt with username: ${request.username}`);
-
-    return await this.authenticator.auth(request);
+    return await this.userRepository.auth(request.email, request.password);
   }
 }
