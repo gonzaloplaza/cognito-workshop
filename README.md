@@ -28,10 +28,11 @@ These are the default values:
 PORT=3000
 APP_NAME="cognito-workshop"
 APP_LOG_LEVEL="debug"
+AWS_ACCESS_KEY_ID="your_aws_access_key_id"
+AWS_SECRET_ACCESS_KEY="your_aws_secret_access_key"
 COGNITO_USER_POOL="your_cognito_user_pool"
 COGNITO_CLIENT_ID="your_cognito_client_id"
 COGNITO_REGION="your-aws-region-x"
-
 ```
 
 ### Development with nodemon (Runs on 3000 port)
@@ -98,8 +99,11 @@ And then run the container passing environment variables within the initializati
 ```sh
 docker run --rm -it -p 3000:3000 \
   -e NODE_ENV=production \
+  -e AWS_ACCESS_KEY_ID="your_aws_access_key_id" \
+  -e AWS_SECRET_ACCESS_KEY="your_aws_secret_access_key" \
   -e COGNITO_USER_POOL="your_cognito_user_pool" \
   -e COGNITO_CLIENT_ID="your_cognito_client_id" \
   -e COGNITO_REGION="your-aws-region-x" \
+  -e APP_LOG_LEVEL="info" \
   --name cognito-workshop cognito-workshop
 ```
