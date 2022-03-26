@@ -1,17 +1,14 @@
 import { NextFunction, Request, Response } from 'express';
 import { DomainError } from '@domain/error/domainError';
-import {
-  Authentication,
-  AuthenticationResponse
-} from '@domain/useCase/authentication/authentication';
+import { Authentication } from '@domain/useCase';
 
 export class PostAuthenticationController {
   constructor(private authentication: Authentication) {}
 
   public async invoke(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
     try {
-      const authenticationResponse: AuthenticationResponse = await this.authentication.invoke({
-        username: req.body.username,
+      const authenticationResponse = await this.authentication.invoke({
+        email: req.body.email,
         password: req.body.password
       });
       res.setHeader('Authorization', 'Bearer ' + authenticationResponse.accessToken);

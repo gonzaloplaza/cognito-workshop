@@ -21,8 +21,8 @@ yarn install
 cp .env.dist .env
 ```
 
-You have to configure local environment variables such as PostgreSQL connection string with your own
-parameters inside _.env_ file. These are the default values:
+You have to configure local environment variables with your own  parameters inside _.env_ file. 
+These are the default values:
 
 ```env
 PORT=3000
@@ -43,8 +43,7 @@ yarn dev
 ### Run tests and generate coverage report
 
 ```bash
-yarn test
-yarn coverage
+yarn test #In progress
 ```
 
 ### Build/Compile JS (to /dist folder)
@@ -60,10 +59,10 @@ configure it for more details: https://aws.amazon.com/cognito/getting-started/
 
 ---
 
-### Docker Compose
+### Docker Compose (for development)
 
 This project is ready to work with **[docker-compose 3.8](https://docs.docker.com/compose/)** to
-initalize the needed stack during development process. To start working run the following commands:
+initialize the needed stack during development process. To start working run the following commands:
 
 ```bash
 docker-compose build
@@ -73,17 +72,16 @@ docker-compose up
 ### Working docker compose environment (Port 8080)
 
 ```bash
-curl http://localhost:8080
-curl http://localhost:8080/health_check
+curl http://localhost:8080/
 ```
 
-Example JSON response (/health_check):
+Example JSON response (/):
 
 ```json
 {
-  "id": "cd6f2876-5de5-4433-b0b9-fb7a8d47abbb",
   "success": true,
-  "date": "2021-02-07T20:13:21.720Z"
+  "message": "Hello Cognito Workshop",
+  "timestamp": 1648208765884
 }
 ```
 

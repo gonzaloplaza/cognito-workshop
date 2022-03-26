@@ -19,7 +19,7 @@ import { ErrorMiddleware } from '@adapter/express/middleware/errorMiddleware';
 import { ApiRouter } from '@adapter/express/router';
 import { ServerLogger } from '@adapter/logger';
 import { config } from '@config';
-import { CognitoAuthenticator, CognitoAuthorizer } from '@adapter/cognito';
+import { CognitoAuthorizer, CognitoClient, CognitoUserRepository } from '@adapter/cognito';
 
 export class Container {
   readonly container: AwilixContainer;
@@ -46,21 +46,24 @@ export class Container {
         apiRouter: asFunction(ApiRouter).singleton()
       })
       .register({
+        cognitoClient: asClass(CognitoClient).singleton(),
+        authorizer: asClass(CognitoAuthorizer).singleton(),
+        userRepository: asClass(CognitoUserRepository).singleton()
+      })
+      .register({
         indexController: asClass(apiControllers.GetIndexController).singleton()
       })
       .register({
         postSignupController: asClass(apiControllers.PostSignupController).singleton(),
         postSignupValidator: asClass(validators.PostSignupValidator).singleton(),
-        signup: asClass(useCases.Signup)
+        signup: asClass(useCases.SignUp)
       })
       .register({
         postAuthenticationController: asClass(
           apiControllers.PostAuthenticationController
         ).singleton(),
         postAuthenticationValidator: asClass(validators.PostAuthenticationValidator).singleton(),
-        authentication: asClass(useCases.Authentication).singleton(),
-        authenticator: asClass(CognitoAuthenticator).singleton(),
-        authorizer: asClass(CognitoAuthorizer).singleton()
+        authentication: asClass(useCases.Authentication).singleton()
       })
       .register({
         getProfileController: asClass(apiControllers.GetProfileController).singleton(),
