@@ -71,7 +71,7 @@ Resources:
       ExecutionRoleArn: !GetAtt TaskExecutionRole.Arn
       ContainerDefinitions:
         - Name: !Sub ${AWS::StackName}
-          Image: !Ref EcrImageUri
+          Image: !Sub ${EcrImageUri}:latest
           Environment:
             - Name: PORT
               Value: !Ref ContainerPort
@@ -167,6 +167,6 @@ Resources:
 Outputs:
   LoadBalancerUrl:
     Description: Application DNS
-    Value: !GetAtt LoadBalancer.DNSName
+    Value: !Sub 'http://${LoadBalancer.DNSName}'
     Export:
       Name: !Sub ${AWS::StackName}-dns
