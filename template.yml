@@ -91,6 +91,7 @@ Resources:
               Value: !Ref CognitoRegion
           PortMappings:
             - ContainerPort: !Ref ContainerPort
+          StopTimeout: 5
           LogConfiguration:
             LogDriver: awslogs
             Options:
@@ -163,6 +164,14 @@ Resources:
       Port: !Ref ContainerPort
       Protocol: HTTP
       VpcId: !Ref VPCID
+      TargetGroupAttributes:
+        - Key: 'deregistration_delay.timeout_seconds'
+          Value: 10
+      HealthCheckEnabled: true
+      HealthCheckProtocol: HTTP
+      HealthCheckPath: '/'
+      HealthCheckIntervalSeconds: 10
+      HealthyThresholdCount: 2
 
 Outputs:
   LoadBalancerUrl:

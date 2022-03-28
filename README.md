@@ -107,3 +107,39 @@ docker run --rm -it -p 3000:3000 \
   -e APP_LOG_LEVEL="info" \
   --name cognito-workshop cognito-workshop
 ```
+
+### Deploy Stack to AWS
+
+In order to create/deploy the current stack to AWS using CloudFormation you'll need to generate your own _.aws-envs_ 
+file that you can copy from the provided template:
+
+```bash
+cp .aws-envs.example .aws-example
+```
+
+Note: This process will need a proper role created into your AWS Account with enough permissions to create all needed
+resources, including IAM roles. You will need also to specify a working AWS VPC and 2 subnets. To execute it:
+
+```bash
+yarn deploy-stack # This is valid for stack create or update.
+```
+
+And to remove stack from cloudformation:
+
+```bash
+yarn remove-stack
+```
+
+### Todo
+
+- [ ] Decouple dependency on aws key and secret variables
+- [ ] Link AWS LoadBalancer to Route53 domain and SSL certificate
+
+
+### Help and references
+
+- https://nathanpeck.com/speeding-up-amazon-ecs-container-deployments
+- https://docs.aws.amazon.com/es_es/AWSCloudFormation/latest/UserGuide/AWS_ECS.html
+- https://docs.aws.amazon.com/elasticloadbalancing/latest/application/target-group-health-checks.html
+- https://docs.aws.amazon.com/es_es/AWSCloudFormation/latest/UserGuide/AWS_ElasticLoadBalancingV2.html
+- https://github.com/aaronwht/aws-ecs-typescript
