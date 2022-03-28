@@ -168,7 +168,5 @@ Outputs:
   LoadBalancerUrl:
     Description: Application DNS
     Value: !GetAtt LoadBalancer.DNSName
-
-  Listener:
-    Description: A reference to a port 80 listener
-    Value: !Ref HTTPLoadBalancerListener
+    Export:
+      Name: !Sub ${AWS::StackName}-dns
