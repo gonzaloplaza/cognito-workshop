@@ -40,7 +40,7 @@ Resources:
   TaskExecutionRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: !Sub ${AWS::StackName}-role
+      RoleName: !Sub ${AWS::StackName}-task-role
       AssumeRolePolicyDocument:
         Statement:
           - Effect: Allow
@@ -163,3 +163,12 @@ Resources:
       Port: !Ref ContainerPort
       Protocol: HTTP
       VpcId: !Ref VPCID
+
+Outputs:
+  LoadBalancerUrl:
+    Description: Application DNS
+    Value: !GetAtt LoadBalancer.DNSName
+
+  Listener:
+    Description: A reference to a port 80 listener
+    Value: !Ref HTTPLoadBalancerListener
