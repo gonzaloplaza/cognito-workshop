@@ -1,0 +1,165 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Cognito Workshop Template
+Parameters:
+  VPCID:
+    Type: String
+  Subnet1ID:
+    Type: String
+  Subnet2ID:
+    Type: String
+  EcrImageUri:
+    Type: String
+  ContainerPort:
+    Type: String
+  NodeEnv:
+    Type: String
+  AppLogLevel:
+    Type: String
+  AwsAccessKeyId:
+    Type: String
+  AwsSecretAccessKey:
+    Type: String
+  CognitoUserPool:
+    Type: String
+  CognitoClientId:
+    Type: String
+  CognitoRegion:
+    Type: String
+
+Resources:
+  Cluster:
+    Type: AWS::ECS::Cluster
+    Properties:
+      ClusterName: !Sub ${AWS::StackName}-cluster
+
+  LogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub ${AWS::StackName}-lg
+
+  TaskExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub ${AWS::StackName}-role
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ecs-tasks.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy
+
+  ContainerSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: !Sub ${AWS::StackName}-sg
+      GroupDescription: Container Security group
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: !Ref ContainerPort
+          ToPort: !Ref ContainerPort
+          CidrIp: 0.0.0.0/0
+
+  TaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: !Sub ${AWS::StackName}-task
+      Cpu: 256
+      Memory: 512
+      NetworkMode: awsvpc
+      ExecutionRoleArn: !GetAtt TaskExecutionRole.Arn
+      ContainerDefinitions:
+        - Name: !Sub ${AWS::StackName}
+          Image: !Ref EcrImageUri
+          Environment:
+            - Name: PORT
+              Value: !Ref ContainerPort
+            - Name: NODE_ENV
+              Value: !Ref NodeEnv
+            - Name: APP_LOG_LEVEL
+              Value: !Ref AppLogLevel
+            - Name: AWS_ACCESS_KEY_ID
+              Value: !Ref AwsAccessKeyId
+            - Name: AWS_SECRET_ACCESS_KEY
+              Value: !Ref AwsSecretAccessKey
+            - Name: COGNITO_USER_POOL
+              Value: !Ref CognitoUserPool
+            - Name: COGNITO_CLIENT_ID
+              Value: !Ref CognitoClientId
+            - Name: COGNITO_REGION
+              Value: !Ref CognitoRegion
+          PortMappings:
+            - ContainerPort: !Ref ContainerPort
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-region: !Ref AWS::Region
+              awslogs-group: !Ref LogGroup
+              awslogs-stream-prefix: ecs
+      RequiresCompatibilities:
+        - EC2
+        - FARGATE
+
+  Service:
+    Type: AWS::ECS::Service
+    DependsOn: HTTPLoadBalancerListener
+    Properties:
+      ServiceName: !Sub ${AWS::StackName}-service
+      Cluster: !Ref Cluster
+      TaskDefinition: !Ref TaskDefinition
+      DesiredCount: 1
+      LaunchType: FARGATE
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: ENABLED
+          Subnets:
+            - !Ref Subnet1ID
+            - !Ref Subnet2ID
+          SecurityGroups:
+            - !GetAtt ContainerSecurityGroup.GroupId
+      LoadBalancers:
+        - TargetGroupArn: !Ref TargetGroup
+          ContainerPort: !Ref ContainerPort
+          ContainerName: !Sub ${AWS::StackName}
+
+  LoadBalancerSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: !Sub ${AWS::StackName}-lb-sg
+      GroupDescription: Security group for load balancer
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+
+  LoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Name: !Sub ${AWS::StackName}-lb
+      Subnets:
+        - !Ref Subnet1ID
+        - !Ref Subnet2ID
+      SecurityGroups:
+        - !GetAtt LoadBalancerSecurityGroup.GroupId
+
+  HTTPLoadBalancerListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      LoadBalancerArn: !Ref LoadBalancer
+      Port: 80
+      Protocol: HTTP
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref TargetGroup
+
+  TargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    DependsOn: LoadBalancer
+    Properties:
+      TargetType: ip
+      Name: !Sub ${AWS::StackName}-lb-tg
+      Port: !Ref ContainerPort
+      Protocol: HTTP
+      VpcId: !Ref VPCID

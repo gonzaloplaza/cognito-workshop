@@ -1,0 +1,12 @@
+VPCID=
+Subnet1ID=
+Subnet2ID=
+EcrImageUri=
+ContainerPort=
+NodeEnv=
+AppLogLevel=
+AwsAccessKeyId=
+AwsSecretAccessKey=
+CognitoUserPool=
+CognitoClientId=
+CognitoRegion=

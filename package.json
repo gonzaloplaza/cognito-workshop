@@ -19,7 +19,10 @@
     "dev": "nodemon",
     "start": "ts-node ./bin/index.ts",
     "start-server": "node ./dist/bin/index.js",
+    "deploy-stack": "sh ./scripts/deploy.sh",
+    "destroy-stack": "sh ./scripts/destroy.sh",
     "build": "rm -rf ./dist && tsc --project tsconfig.json && tscpaths -p tsconfig.json -s . -o ./dist",
+    "build-docker": "docker build --no-cache -t cognito-workshop .",
     "test": "echo Please implement tests..."
   },
   "dependencies": {
