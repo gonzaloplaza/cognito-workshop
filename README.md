@@ -114,7 +114,7 @@ In order to create/deploy the current stack to AWS using CloudFormation you'll n
 file that you can copy from the provided template:
 
 ```bash
-cp .aws-envs.example .aws-example
+cp .aws-envs.example .aws-envs
 ```
 
 Note: This process will need a proper role created into your AWS Account with enough permissions to create all needed
@@ -142,4 +142,5 @@ yarn remove-stack
 - https://docs.aws.amazon.com/es_es/AWSCloudFormation/latest/UserGuide/AWS_ECS.html
 - https://docs.aws.amazon.com/elasticloadbalancing/latest/application/target-group-health-checks.html
 - https://docs.aws.amazon.com/es_es/AWSCloudFormation/latest/UserGuide/AWS_ElasticLoadBalancingV2.html
+- https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticloadbalancingv2-targetgroup.html
 - https://github.com/aaronwht/aws-ecs-typescript
