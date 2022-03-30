@@ -7,7 +7,7 @@
 This is another Express + TypeScript + DDD (Domain Driven Design patterns) + IoC/DI (Inversion of
 control and Dependency injection) + API REST boilerplate.
 
-Author: Gonzalo Plaza
+Author: Gonzalo Plaza <gonzaloplazac@gmail.com>
 
 ## Installation and Configuration
 
@@ -68,6 +68,11 @@ initialize the needed stack during development process. To start working run the
 ```bash
 docker-compose build
 docker-compose up
+```
+
+To shut down local stack:
+```bash
+docker-compose down
 ```
 
 ### Working docker compose environment (Port 8080)
@@ -134,6 +139,7 @@ yarn remove-stack
 
 - [ ] Decouple dependency on aws key and secret variables
 - [ ] Link AWS LoadBalancer to Route53 domain and SSL certificate
+- [ ] Add tests and coverage
 
 
 ### Help and references

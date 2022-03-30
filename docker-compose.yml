@@ -4,9 +4,9 @@ services:
     build:
       # This image is used for development running nodemon with your shared source files.
       context: ./
-      dockerfile: ./etc/node/Dockerfile.dev
-    image: cognito-workshop
-    container_name: cognito-workshop-app
+      dockerfile: ./etc/node/Dockerfile-dev
+    image: ${APP_NAME}
+    container_name: ${APP_NAME}-app
     restart: unless-stopped
     working_dir: /app/
     volumes:
@@ -15,26 +15,41 @@ services:
       - "3000:3000"
     environment:
       PORT: 3000
-      APP_NAME: "cognito-workshop"
+      APP_NAME: ${APP_NAME}
       APP_LOG_LEVEL: "debug"
     networks:
-      - cognito-workshop-network
+      - dev-network
 
   nginx:
     build:
       context: ./
       dockerfile: ./etc/nginx/Dockerfile
-    container_name: cognito-workshop-nginx
+    container_name: ${APP_NAME}-nginx
     environment:
       PORT: 8080
     restart: unless-stopped
     ports:
       - "8080:8080"
     networks:
-      - cognito-workshop-network
+      - dev-network
     depends_on:
+      - dynamodb
       - app
 
+  # Example DynamoDB (https://hub.docker.com/r/amazon/dynamodb-local)
+  dynamodb:
+    image: amazon/dynamodb-local:latest
+    container_name: ${APP_NAME}-dynamodb
+    hostname: dynamodb
+    restart: unless-stopped
+    volumes:
+      - ./etc/dynamodb/:/home/dynamodb/data
+    ports:
+      - "8000:8000"
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath /home/dynamodb/data/"
+    networks:
+      - dev-network
+
 networks:
-  cognito-workshop-network:
+  dev-network:
     driver: bridge
